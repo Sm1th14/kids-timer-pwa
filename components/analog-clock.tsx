@@ -29,7 +29,7 @@ export default function AnalogClock({
   const createArcPath = () => {
     if (remainingAngle === 0) return ""
 
-    const startAngle = 0 // 12 o'clock
+    const startAngle = 0 // 12 o'clock yeah
     const endAngle = remainingAngle
 
     const startX = centerX + radius * Math.sin((startAngle * Math.PI) / 180)
