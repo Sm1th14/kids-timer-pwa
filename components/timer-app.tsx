@@ -22,7 +22,7 @@ export default function TimerApp() {
 
    // Audio einmal laden
   useEffect(() => {
-    alarmAudioRef.current = new Audio("/sounds/timerendmelodie.mp3")
+    alarmAudioRef.current = new Audio("sounds/timerendmelodie.mp3")
     alarmAudioRef.current.load()
   }, [])
 
@@ -41,6 +41,7 @@ export default function TimerApp() {
 
         if (newRemaining <= 0) {
           setState("finished")
+          alarmAudioRef.current!.currentTime = 0
           alarmAudioRef.current?.play().catch(console.error)
         }
       }, 50)
@@ -63,6 +64,10 @@ export default function TimerApp() {
     if (total > 0 && total <= 3600) {
       setTotalSeconds(total)
       setRemainingSeconds(total)
+      alarmAudioRef.current?.play()
+    .then(() => alarmAudioRef.current!.pause())
+    .catch(() => {/* ignore */})
+ 
       setState("running")
       // kein Start-Ton mehr
     }
@@ -90,6 +95,9 @@ export default function TimerApp() {
     setTotalSeconds(0)
     setMinutes("")
     setSeconds("")
+     // Stoppe und setze den Alarm zurück
+ alarmAudioRef.current?.pause()
+alarmAudioRef.current!.currentTime = 0
   }
 
   const setPresetTime = (mins: number) => {
