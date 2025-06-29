@@ -17,71 +17,18 @@ export default function TimerApp() {
   const [seconds, setSeconds] = useState("")
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const audioContextRef = useRef<AudioContext | null>(null)
+  const alarmAudioRef = useRef<HTMLAudioElement | null>(null)
   const startTimeRef = useRef<number>(0)
 
-  // Initialize audio context
+   // Audio einmal laden
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
-    }
+    alarmAudioRef.current = new Audio("/sounds/timerendmelodie.mp3")
+    alarmAudioRef.current.load()
   }, [])
 
-  // Play audio feedback
-  const playTone = (frequency: number, duration: number) => {
-    if (!audioContextRef.current) return
-
-    const oscillator = audioContextRef.current.createOscillator()
-    const gainNode = audioContextRef.current.createGain()
-
-    oscillator.connect(gainNode)
-    gainNode.connect(audioContextRef.current.destination)
-
-    oscillator.frequency.setValueAtTime(frequency, audioContextRef.current.currentTime)
-    oscillator.type = "sine"
-
-    gainNode.gain.setValueAtTime(0.3, audioContextRef.current.currentTime)
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + duration)
-
-    oscillator.start(audioContextRef.current.currentTime)
-    oscillator.stop(audioContextRef.current.currentTime + duration)
-  }
-
-// Neue, “richtige” Melodie (A4–B4–C5–E5–D5–C5–B4–A4 mit variabler Länge)
-const playMelody = () => {
-  const ctx = audioContextRef.current
-  if (!ctx) return
-
-  const now = ctx.currentTime
-  const notes =    [440.0, 493.9, 523.3, 659.3, 587.3, 523.3, 493.9, 440.0]
-  const durations = [0.4,   0.4,   0.6,   0.6,   0.6,   0.6,   0.4,   0.8]
-
-  let offset = 0
-  notes.forEach((freq, i) => {
-    const dur = durations[i]
-    const start = now + offset
-    const osc = ctx.createOscillator()
-    const gain = ctx.createGain()
-
-    osc.connect(gain)
-    gain.connect(ctx.destination)
-
-    osc.frequency.setValueAtTime(freq, start)
-    osc.type = "sine"
-
-    gain.gain.setValueAtTime(0, start)
-    gain.gain.linearRampToValueAtTime(0.3, start + 0.05)
-    gain.gain.exponentialRampToValueAtTime(0.001, start + dur)
-
-    osc.start(start)
-    osc.stop(start + dur)
-
-    offset += dur
-  })
-}
 
 
-  // Timer logic with smooth updates
+  // Timer logic
   useEffect(() => {
     if (state === "running") {
       startTimeRef.current = Date.now()
@@ -94,34 +41,30 @@ const playMelody = () => {
 
         if (newRemaining <= 0) {
           setState("finished")
-          playMelody() // Long tone when finished
+          alarmAudioRef.current?.play().catch(console.error)
         }
-      }, 50) // Update every 50ms for smooth animation
+      }, 50)
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
         intervalRef.current = null
       }
     }
-
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current)
     }
   }, [state, totalSeconds])
 
   const startTimer = () => {
-    const mins = Number.parseInt(minutes) || 0
-    const secs = Number.parseInt(seconds) || 0
+    const mins = parseInt(minutes) || 0
+    const secs = parseInt(seconds) || 0
     const total = mins * 60 + secs
 
     if (total > 0 && total <= 3600) {
-      // Max 60 minutes
       setTotalSeconds(total)
       setRemainingSeconds(total)
       setState("running")
-      playTone(600, 0.2) // Short tone at start
+      // kein Start-Ton mehr
     }
   }
 
