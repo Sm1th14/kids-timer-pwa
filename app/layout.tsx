@@ -43,14 +43,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-gray-900">
       <head>
         {/* PWA Manifest */}
         <link rel="manifest" href="/kids-timer-pwa/manifest.json" />
 
         {/* iOS-specific Meta Tags */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Kids Timer" />
         <meta name="mobile-web-app-capable" content="yes" />
 
@@ -62,7 +62,7 @@ export default function RootLayout({
         {/* Prevent zoom on input focus */}
         <meta name="format-detection" content="telephone=no" />
       </head>
-      <body className={`${inter.className} bg-gray-900 text-white`}>
+      <body className={inter.className + " text-white"}>
          {/* Registriere den SW und zeige den Install-Button */}
       <RegisterSW />        <PwaInstaller />
         <div className="pt-[env(safe-area-inset-top)]">{children}</div>
