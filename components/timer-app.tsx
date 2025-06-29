@@ -164,7 +164,7 @@ const playMelody = () => {
     <div className="min-h-screen bg-gray-900 text-white p-4">
       <div className="max-w-md mx-auto">
         {/* Analog Clock */}
-        <div className="mb-8">
+         <div className="mb-8 w-full flex justify-center">
           <AnalogClock
             totalSeconds={totalSeconds}
             remainingSeconds={state === "setup" ? 0 : remainingSeconds}
