@@ -44,7 +44,7 @@ export default function AnalogClock({
 
   return (
     <div className="flex justify-center">
-      <svg width="370" height="370" className="drop-shadow-2xl">
+      <svg width="360" height="360" className="drop-shadow-2xl">
         {/* Clock face */}
         <circle cx={centerX} cy={centerY} r={radius} fill="#1f2937" stroke="#374151" strokeWidth="4" />
 
