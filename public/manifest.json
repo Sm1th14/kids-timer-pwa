@@ -1,25 +1,24 @@
 {
   "name": "Kids Timer PWA",
   "short_name": "Kids Timer",
-  "description": "A child-friendly timer app with analog clock interface",
-  "start_url": "/kids-timer-pwa/?homescreen=1",
+  "scope": "/kids-timer-pwa/",
+  "start_url": "/kids-timer-pwa/",
+  "display": "standalone",
   "background_color": "#111827",
   "theme_color": "#3b82f6",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/kids-timer-pwa/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/kids-timer-pwa/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["productivity", "utilities"],
-  "lang": "en"
+  ]
 }
