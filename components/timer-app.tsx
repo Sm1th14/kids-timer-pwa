@@ -147,7 +147,7 @@ export default function TimerApp() {
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <Label htmlFor="minutes" className="text-sm text-gray-300 mb-2 block">
-                    Minutes
+                    Minuten
                   </Label>
                   <Input
                     id="minutes"
@@ -162,7 +162,7 @@ export default function TimerApp() {
                 </div>
                 <div>
                   <Label htmlFor="seconds" className="text-sm text-gray-300 mb-2 block">
-                    Seconds
+                    Sekunden
                   </Label>
                   <Input
                     id="seconds"
@@ -204,58 +204,62 @@ export default function TimerApp() {
           </div>
         )}
 
-        {/* Running/Paused Timer Screen */}
-        {(state === "running" || state === "paused") && (
-          <div className="space-y-6">
-            {/* Digital Countdown */}
-            <div className="text-center">
-              <div className="text-6xl font-bold text-blue-400 mb-2 font-mono">{formatTime(remainingSeconds)}</div>
-              <p className="text-gray-400">{state === "running" ? "Time is running..." : "Timer paused"}</p>
-            </div>
+{/* Running/Paused Timer Screen */}
+{(state === "running" || state === "paused") && (
+  <div className="space-y-6">
+    {/* Digital Countdown */}
+    <div className="text-center">
+      <div className="text-6xl font-bold text-blue-400 mb-2 font-mono">
+        {formatTime(remainingSeconds)}
+      </div>
+      <p className="text-gray-400">
+        {state === "running" ? "Timer läuft..." : "Timer pausiert"}
+      </p>
+    </div>
 
-            {/* Control Buttons */}
-            <div className="flex gap-3 justify-center">
-              {state === "running" ? (
-                <Button
-                  onClick={pauseTimer}
-                  className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-xl"
-                >
-                  <Pause className="w-5 h-5 mr-2" />
-                  Pause
-                </Button>
-              ) : (
-                <Button
-                  onClick={resumeTimer}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl"
-                >
-                  <Play className="w-5 h-5 mr-2" />
-                  Continue
-                </Button>
-              )}
-              <Button
-                onClick={stopTimer}
-                variant="outline"
-                className="border-gray-600 text-gray-300 hover:bg-gray-700 px-6 py-3 rounded-xl"
-              >
-                <Square className="w-5 h-5 mr-2" />
-                Stop
-              </Button>
-            </div>
-          </div>
-        )}
+    {/* Control Buttons */}
+    <div className="flex gap-3 justify-center">
+      {state === "running" ? (
+        <Button
+          onClick={pauseTimer}
+          className="border border-yellow-500 text-yellow-500 hover:bg-yellow-900/10 px-6 py-3 rounded-xl bg-transparent"
+        >
+          <Pause className="w-5 h-5 mr-2" />
+          Pause
+        </Button>
+      ) : (
+        <Button
+          onClick={resumeTimer}
+          className="border border-green-500 text-green-500 hover:bg-green-900/10 px-6 py-3 rounded-xl bg-transparent"
+        >
+          <Play className="w-5 h-5 mr-2" />
+          Weiter
+        </Button>
+      )}
+      <Button
+        onClick={stopTimer}
+        className="border border-red-500 text-red-500 hover:bg-red-900/10 px-6 py-3 rounded-xl bg-transparent"
+      >
+        <Square className="w-5 h-5 mr-2" />
+        Stopp
+      </Button>
+    </div>
+  </div>
+)}
+
+
 
         {/* Finished Screen */}
         {state === "finished" && (
           <div className="text-center space-y-6">
             <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-3xl font-bold text-green-400">Time's Up!</h2>
-            <p className="text-gray-400 text-lg">Great job waiting!</p>
+            <h2 className="text-3xl font-bold text-green-400">Zeit ist vorbei!</h2>
             <Button
               onClick={resetTimer}
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold"
             >
               <RotateCcw className="w-5 h-5 mr-2" />
-              Set New Timer
+              Starte einen neuen Timer
             </Button>
           </div>
         )}

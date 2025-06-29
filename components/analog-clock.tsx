@@ -22,8 +22,8 @@ export default function AnalogClock({
   const remainingAngle = isActive ? (remainingSeconds / 3600) * 360 : 0
 
   // Calculate hand positions
-  const handX = centerX + radius * 0.8 * Math.sin((remainingAngle * Math.PI) / 180)
-  const handY = centerY - radius * 0.8 * Math.cos((remainingAngle * Math.PI) / 180)
+  const handX = centerX + radius * 0.65 * Math.sin((remainingAngle * Math.PI) / 180)
+  const handY = centerY - radius * 0.65 * Math.cos((remainingAngle * Math.PI) / 180)
 
   // Create arc path for remaining time highlight
   const createArcPath = () => {
@@ -85,19 +85,20 @@ export default function AnalogClock({
         {/* Center dot */}
         <circle cx={centerX} cy={centerY} r="12" fill="#374151" stroke="#6b7280" strokeWidth="3" />
 
-        {/* All numbers 1-12 */}
-        {[...Array(12)].map((_, i) => {
-          const num = i === 0 ? 12 : i
-          const angle = (i * 30 * Math.PI) / 180
-          const x = centerX + (radius - 35) * Math.sin(angle)
-          const y = centerY - (radius - 35) * Math.cos(angle) + 7
+              {/* Minuten-Beschriftungen 0, 5, 10, … 55 */}
+      {[...Array(12)].map((_, i) => {
+        const label = (i * 5) % 60  // ergibt 0,5,10,...55
+        const angle = (i * 30 * Math.PI) / 180
+        const x = centerX + (radius - 35) * Math.sin(angle)
+        const y = centerY - (radius - 35) * Math.cos(angle) + 7
 
-          return (
-            <text key={num} x={x} y={y} textAnchor="middle" className="text-lg font-bold fill-gray-300">
-              {num}
-            </text>
-          )
-        })}
+        return (
+          <text key={i} x={x} y={y} textAnchor="middle" className="text-lg font-bold fill-gray-300">
+            {label}
+          </text>
+        )
+      })}
+
 
         {/* Minute dots around the clock */}
         {[...Array(60)].map((_, i) => {
